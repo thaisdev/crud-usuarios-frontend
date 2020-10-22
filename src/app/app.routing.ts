@@ -3,8 +3,6 @@ import { CommonModule, } from '@angular/common';
 import { BrowserModule  } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UserComponent } from './pages/user/user.component';
-
 const routes: Routes =[
   {
     path: '',
@@ -13,7 +11,7 @@ const routes: Routes =[
   },
   {
     path: 'user',
-    component: UserComponent
+    loadChildren: './pages/user/user.module#UserModule'
   }
 ];
 

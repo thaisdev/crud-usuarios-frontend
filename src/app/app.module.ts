@@ -28,8 +28,7 @@ import {
     // })
   ],
   declarations: [
-    AppComponent,
-
+    AppComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
