@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
+
+import { GraduationEnum } from 'app/models/graduation.enum';
 import { UserInterface } from 'app/models/user.interface';
 
 @Component({
@@ -8,20 +11,34 @@ import { UserInterface } from 'app/models/user.interface';
 })
 export class ListComponent implements OnInit {
 
-  public users: Array<UserInterface> = [
-    {
-      id: 1,
-      name: 'Thais',
-      lastName: 'Oliveira',
-      email: 'email@email.com',
-      birthday: new Date(),
-      graduation: 1
-    }
-  ];
+  public GraduationEnum = GraduationEnum;
 
-  constructor() { }
+  public users: UserInterface[] = [];
+
+  constructor(
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
+    this.getUsers();
+  }
+
+  getUsers(): void {
+    this.userService.getUsers()
+      .subscribe(
+        (userList: UserInterface[]) => {
+          this.users = userList;
+        }
+      )
+  }
+
+  deleteUser(user: UserInterface): void {
+    this.userService.deleteUser(user)
+      .subscribe(
+        (res: any) => {
+          this.getUsers();
+        }
+      )
   }
 
 }

@@ -1,1 +1,61 @@
-<p>form works!</p>
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title" *ngIf="!user">Novo usuário</h4>
+                      <h4 class="card-title" *ngIf="user">Editar usuário</h4>
+                  </div>
+                  <div class="card-body">
+                      <form [formGroup]="form" (submit)="submit()">
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Nome" formControlName="name">
+                                    <mat-error>Campo obrigatório</mat-error>
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-12">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Sobrenome" formControlName="lastName">
+                                    <mat-error>Campo obrigatório</mat-error>
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-12">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput [matDatepicker]="picker" placeholder="Data de Nascimento" formControlName="birthday">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                    <mat-error>Campo obrigatório</mat-error>
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-12">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="E-mail" type="email" formControlName="email">
+                                    <mat-error>Campo obrigatório</mat-error>
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-12">
+                                  <mat-form-field class="example-full-width">
+                                    <select matNativeControl placeholder="Escolaridade" formControlName="graduation">
+                                      <option [value]="1">Fundamental - Incompleto</option>
+                                      <option [value]="2">Fundamental - Completo</option>
+                                      <option [value]="3">Médio - Incompleto</option>
+                                      <option [value]="4">Médio - Completo</option>
+                                      <option [value]="5">Superior - Incompleto</option>
+                                      <option [value]="6">Superior - Completo</option>
+                                    </select>
+                                    <mat-error>Campo obrigatório</mat-error>
+                                  </mat-form-field>
+                              </div>
+                          </div>
+                          <button mat-raised-button type="submit" class="btn btn-danger pull-right">Salvar</button>
+                          <div class="clearfix"></div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

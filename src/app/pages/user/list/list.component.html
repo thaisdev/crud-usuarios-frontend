@@ -4,7 +4,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-danger">
-                        <h4 class="card-title ">Lista de usuários cadastrados</h4>
+                        <h4 class="card-title pull-left">Lista de usuários cadastrados</h4>
+                        <button mat-raised-button type="submit" class="btn btn-white pull-right" routerLink="/user/new">Novo usuário</button>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -28,27 +29,49 @@
                                     <th>
                                         Escolaridade
                                     </th>
+                                    <th>
+                                        Ações
+                                    </th>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr *ngFor="let user of users">
                                         <td>
-                                            1
+                                            {{ user.id }}
                                         </td>
                                         <td>
-                                            Thais
+                                            {{ user.name }}
                                         </td>
                                         <td>
-                                            Oliveira
+                                            {{ user.lastName }}
                                         </td>
                                         <td>
-                                            email@email.com
+                                            {{ user.email }}
                                         </td>
                                         <td>
-                                            25/11/1994
+                                            {{ user.birthday | date:'dd/MM/yyyy' }}
                                         </td>
                                         <td>
-                                            Superior
+                                            {{ GraduationEnum[user.graduation] }}
                                         </td>
+                                        <td>
+                                            <button
+                                                mat-raised-button
+                                                type="button"
+                                                matTooltip="Editar"
+                                                class="btn btn-primary btn-link btn-just-icon"
+                                                [routerLink]="['/user/edit', user.id]">
+                                                <i class="material-icons">create</i>
+                                            </button>
+                                            <button
+                                                mat-raised-button
+                                                type="button"
+                                                matTooltip="Apagar"
+                                                class="btn btn-danger btn-link btn-just-icon"
+                                                (click)="deleteUser(user)">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -58,4 +81,3 @@
         </div>
     </div>
   </div>
-  
