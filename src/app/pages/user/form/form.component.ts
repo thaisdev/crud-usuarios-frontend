@@ -13,6 +13,7 @@ export class FormComponent implements OnInit {
 
   form: FormGroup;
   user: UserInterface;
+  today: Date = new Date();
 
   constructor(
     private fb: FormBuilder,
@@ -24,8 +25,8 @@ export class FormComponent implements OnInit {
       name: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       birthday: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      graduation: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      graduation: [0, [Validators.required]],
     });
   }
 
@@ -59,15 +60,20 @@ export class FormComponent implements OnInit {
       return;
     }
 
-    if (this.user) {
+    let formValue = this.form.value;
+    formValue.graduation = parseInt(formValue.graduation);  
+    this.user = {...this.user, ...formValue}; 
+
+    if (this.user.id) {
       this.edit();
     } else {
+      this.user.id = null;
       this.save();
     }
   }
 
   save(): void {
-    this.userService.newUser(this.form.value)
+    this.userService.newUser(this.user)
       .subscribe(
         (res: any) => {
           this.router.navigate(['/user/list'])
@@ -76,7 +82,7 @@ export class FormComponent implements OnInit {
   }
 
   edit(): void {
-    this.userService.editUser(this.user, this.form.value)
+    this.userService.editUser(this.user)
       .subscribe(
         (res: any) => {
           this.router.navigate(['/user/list'])

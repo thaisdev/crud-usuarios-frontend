@@ -1,71 +1,36 @@
 import { Injectable } from '@angular/core';
 import { UserInterface } from 'app/models/user.interface';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+
+const url = `${environment.apiUrl}/Users`;
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  userList: UserInterface[] = [
-    {
-      id: 1,
-      name: 'Thais',
-      lastName: 'Oliveira',
-      email: 'email@email.com',
-      birthday: new Date(),
-      graduation: 1
-    }
-  ];
-
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getUsers(): Observable<UserInterface[]> {
-    return new Observable((observer) => {
-      observer.next(this.userList);
-    });
+    return this.http.get<UserInterface[]>(url);
   }
 
   getUser(userID: number): Observable<UserInterface> {
-    return new Observable((observer) => {
-      const user = this.userList.find((u) => u.id === userID);
-      observer.next(user);
-    });
+    return this.http.get<UserInterface>(`${url}/${userID}`);
   }
 
-  newUser(formData: UserInterface): Observable<boolean> {
-    return new Observable((observer) => {
-      const userData = {
-        id: Math.floor(Math.random() * 10000000),
-        ...formData
-      };
-
-      this.userList.push(userData);
-      observer.next(true);
-    });
+  newUser(newUser: UserInterface): Observable<UserInterface> {
+    return this.http.post<UserInterface>(url, newUser);
   }
 
-  editUser(user: UserInterface, formData: UserInterface): Observable<boolean> {
-    return new Observable((observer) => {
-      const userData = {
-        id: user.id,
-        ...formData
-      };
-
-      const userIndex = this.userList.findIndex((u) => u.id === user.id);
-      this.userList.splice(userIndex, 1, userData);
-
-      observer.next(true);
-    });
+  editUser(user: UserInterface): Observable<UserInterface> {
+    return this.http.put<UserInterface>(`${url}/${user.id}`, user);
   }
 
   deleteUser(user: UserInterface): Observable<boolean> {
-    return new Observable((observer) => {
-      const userIndex = this.userList.findIndex((u) => u.id === user.id);
-      this.userList.splice(userIndex, 1);
-
-      observer.next(true);
-    });
+    return this.http.delete<boolean>(`${url}/${user.id}`);
   }
 
 }

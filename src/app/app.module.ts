@@ -1,17 +1,19 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import { HttpClientModule } from '@angular/common/http';
+
+import localePtBr from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localePtBr);
 
 import { AppComponent } from './app.component';
-
-import {
-  AgmCoreModule
-} from '@agm/core';
 
  export const DateFormats = {
     parse: {
@@ -33,15 +35,13 @@ import {
     HttpModule,
     ComponentsModule,
     RouterModule,
-    AppRoutingModule,
-    // AgmCoreModule.forRoot({
-    //   apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
-    // })
+    AppRoutingModule,    
+    HttpClientModule
   ],
   declarations: [
     AppComponent
   ],
-  providers: [],
+  providers: [{provide: LOCALE_ID, useValue: 'pt-BR'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
